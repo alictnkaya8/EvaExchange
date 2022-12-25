@@ -10,17 +10,23 @@ import {
 
 @Entity()
 export class Share {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
+  @Column({ unique: true })
   symbol: string;
 
   @Column()
   rate: number;
 
-  @ManyToOne(() => User)
+  @Column()
+  price: number;
+
+  @ManyToOne(() => User, (user: User) => user.shares)
   user: User;
+
+  @Column({ nullable: true, select: false })
+  userId: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

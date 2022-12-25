@@ -21,7 +21,7 @@ export class UserService implements OnModuleInit {
     return await this.userRepository.findOne({ where: { username: username } });
   }
 
-  async getById(userId: number): Promise<User> {
+  async getById(userId: string): Promise<User> {
     return await this.userRepository.findOne({ where: { id: userId } });
   }
 }

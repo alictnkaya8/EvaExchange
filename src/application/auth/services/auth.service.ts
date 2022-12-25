@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../../../application/user/dtos/create-user.dto';
 import { BadRequestException } from '@nestjs/common/exceptions';
 import { User } from '../../../application/user/entities/user.entity';
+import { JwtPayload } from '../jwt.payload';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +33,7 @@ export class AuthService {
 
     const validatedUser = await this.validateUser(username, password);
 
-    const token = await this.generateToken(validatedUser.username);
+    const token = await this.generateToken(validatedUser);
 
     return { token };
   }
@@ -46,7 +47,7 @@ export class AuthService {
         password: hashedPassword,
       });
 
-      const token = this.generateToken(newUser);
+      const token = await this.generateToken(newUser);
 
       return token;
     } catch (err) {
@@ -61,9 +62,9 @@ export class AuthService {
     }
   }
 
-  private generateToken(user: any) {
-    const payload = { username: user.username, sub: user.id };
-    const token = this.jwtService.sign(payload);
+  private async generateToken(user: User) {
+    const payload: JwtPayload = { userId: user.id, expirationTime: 600000000 };
+    const token = await this.jwtService.signAsync(payload);
     return token;
   }
 
