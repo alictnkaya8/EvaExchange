@@ -1,9 +1,7 @@
-import { Share } from '../../../application/share/entities/share.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,12 +17,16 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
+  // portföy cash ve stock değerlerinin toplamıdır.
+  @Column({ type: 'decimal', default: 2000 })
+  cash: string;
+
+  @Column({ type: 'decimal', default: 0 })
+  stock: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
-
-  @OneToMany(() => Share, (share: Share) => share.user)
-  shares: Share[];
 }

@@ -1,9 +1,7 @@
-import { User } from '../../../application/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -16,17 +14,8 @@ export class Share {
   @Column({ unique: true })
   symbol: string;
 
-  @Column()
-  rate: number;
-
-  @Column()
-  price: number;
-
-  @ManyToOne(() => User, (user: User) => user.shares)
-  user: User;
-
-  @Column({ nullable: true, select: false })
-  userId: string;
+  @Column({ type: 'decimal' })
+  price: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

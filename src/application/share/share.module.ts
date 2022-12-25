@@ -10,5 +10,6 @@ import { UserModule } from '../user/user.module';
   imports: [TypeOrmModule.forFeature([Share]), AuthModule, UserModule],
   providers: [ShareService],
   controllers: [ShareController],
+  exports: [ShareService],
 })
 export class ShareModule {}
